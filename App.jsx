@@ -29,6 +29,10 @@ const steps = [
   "Suggestions",
 ];
 
+const GOOGLE_APPS_SCRIPT_URL =
+  import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ||
+  "https://script.google.com/macros/s/AKfycbwZOFMseICzp-ypwYCrLJzJVHAhbXYwm50FRjgP4Nn52OaLVSCv0DW6IZH7uLphZKsO/exec";
+
 function RadioGroup({ name, options, value, onChange }) {
   return (
     <div className="radio-group">
@@ -167,7 +171,7 @@ export default function App() {
       };
 
       await fetch(
-        "https://script.google.com/macros/s/AKfycbwZOFMseICzp-ypwYCrLJzJVHAhbXYwm50FRjgP4Nn52OaLVSCv0DW6IZH7uLphZKsO/exec",
+        GOOGLE_APPS_SCRIPT_URL,
         {
           method: "POST",
           mode: "no-cors",
