@@ -29,6 +29,8 @@ const steps = [
   "Suggestions",
 ];
 
+const busRouteNumbers = ["21", "22", "23", "24", "25", "26", "27"];
+
 const GOOGLE_APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ||
   "https://script.google.com/macros/s/AKfycbwZOFMseICzp-ypwYCrLJzJVHAhbXYwm50FRjgP4Nn52OaLVSCv0DW6IZH7uLphZKsO/exec";
@@ -109,6 +111,7 @@ export default function App() {
     role: "",
     useBus: "",
     frequency: "",
+    busNumber: "",
     route: "",
     problems: [],
     satisfaction: null,
@@ -130,6 +133,7 @@ export default function App() {
     }
     if (step === 1) {
       if (!form.useBus) e.useBus = "Required";
+      if (form.useBus === "Yes" && !form.busNumber) e.busNumber = "Required";
     }
     if (step === 2) {
       if (form.problems.length === 0) e.problems = "Select at least one";
@@ -160,6 +164,7 @@ export default function App() {
         role: form.role,
         useBus: form.useBus,
         frequency: form.frequency || "",
+        busNumber: form.useBus === "Yes" ? form.busNumber : "",
         route: form.route || "",
         problems: form.problems,
         satisfaction: form.satisfaction,
@@ -203,7 +208,7 @@ export default function App() {
               Your feedback has been recorded for the <strong>DTMS Project</strong>.<br />
               We'll use your insights to build a smarter transport system for Dhaanish Ahmed College.
             </p>
-            <button className="btn-primary" onClick={() => { setSubmitted(false); setStep(0); setForm({ name:"",department:"",year:"",role:"",useBus:"",frequency:"",route:"",problems:[],satisfaction:null,wantApp:"",features:[],dtmsHelp:"",suggestions:"" }); }}>
+            <button className="btn-primary" onClick={() => { setSubmitted(false); setStep(0); setForm({ name:"",department:"",year:"",role:"",useBus:"",frequency:"",busNumber:"",route:"",problems:[],satisfaction:null,wantApp:"",features:[],dtmsHelp:"",suggestions:"" }); }}>
               Submit Another Response
             </button>
           </div>
@@ -291,6 +296,14 @@ export default function App() {
                     <RadioGroup name="freq" options={["Daily","Occasionally","Rarely"]} value={form.frequency} onChange={v => set("frequency", v)} />
                   </div>
                   <div className="field">
+                    <label>Bus Route Number <span className="req">*</span></label>
+                    <select className={errors.busNumber ? "err" : ""} value={form.busNumber} onChange={e => set("busNumber", e.target.value)}>
+                      <option value="">-- Select Bus Number --</option>
+                      {busRouteNumbers.map(busNo => <option key={busNo}>{busNo}</option>)}
+                    </select>
+                    {errors.busNumber && <p className="err-msg">{errors.busNumber}</p>}
+                  </div>
+                  <div className="field">
                     <label>Your Bus Route / Area</label>
                     <input placeholder="e.g. Tambaram, Velachery…" value={form.route} onChange={e => set("route", e.target.value)} />
                   </div>
@@ -351,7 +364,7 @@ export default function App() {
                 <h3>📋 Your Responses Summary</h3>
                 <p><b>Name:</b> {form.name}</p>
                 <p><b>Dept:</b> {form.department} | <b>Year:</b> {form.year} | <b>Role:</b> {form.role}</p>
-                <p><b>Bus User:</b> {form.useBus} {form.frequency ? `(${form.frequency})` : ""}</p>
+                <p><b>Bus User:</b> {form.useBus} {form.frequency ? `(${form.frequency})` : ""} {form.useBus === "Yes" && form.busNumber ? `| Route No: ${form.busNumber}` : ""}</p>
                 <p><b>Issues:</b> {form.problems.join(", ") || "—"}</p>
                 <p><b>Satisfaction:</b> {form.satisfaction}/5</p>
                 <p><b>Wants App:</b> {form.wantApp} | <b>DTMS Helps:</b> {form.dtmsHelp}</p>
