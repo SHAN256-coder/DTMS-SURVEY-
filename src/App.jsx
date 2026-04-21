@@ -29,7 +29,7 @@ const steps = [
   "Suggestions",
 ];
 
-const busRouteNumbers = ["21", "22", "23", "24", "25", "26", "27"];
+const busRouteNumbers = Array.from({ length: 17 }, (_, i) => String(i + 21));
 
 const GOOGLE_APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ||
