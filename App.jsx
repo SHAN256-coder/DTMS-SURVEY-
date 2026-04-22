@@ -33,7 +33,7 @@ const busRouteNumbers = Array.from({ length: 17 }, (_, i) => String(i + 21));
 
 const GOOGLE_APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ||
-  "https://script.google.com/macros/s/AKfycbwZOFMseICzp-ypwYCrLJzJVHAhbXYwm50FRjgP4Nn52OaLVSCv0DW6IZH7uLphZKsO/exec";
+  "https://script.google.com/macros/s/AKfycbzC9ZFaqI5UJVYY8kVcallzE_036AdfGHBLxkAWQQGDL_LyaYp9XIJBxRFunqaNuu2G/exec";
 
 function RadioGroup({ name, options, value, onChange }) {
   return (

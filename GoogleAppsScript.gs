@@ -1,4 +1,5 @@
 const SPREADSHEET_ID = "1LSyDRJxrW-kdzkuHHur0d90swQJbSYzNx3EJY5l0WXE";
+const TARGET_SHEET_GID = 0;
 
 const COLUMN_DEFS = [
   { key: "timestamp", header: "Timestamp", aliases: ["Date", "Submitted At"] },
@@ -22,7 +23,7 @@ const COLUMN_DEFS = [
 function doPost(e) {
   try {
     const payload = JSON.parse((e && e.postData && e.postData.contents) || "{}");
-    const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
+    const sheet = getTargetSheet_();
     const headers = ensureHeaders_(sheet);
 
     sheet.appendRow(buildRow_(headers, payload));
@@ -38,6 +39,15 @@ function doPost(e) {
       .createTextOutput(JSON.stringify({ status: "error", message: String(error) }))
       .setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function getTargetSheet_() {
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const targetSheet = spreadsheet
+    .getSheets()
+    .find((sheet) => sheet.getSheetId() === TARGET_SHEET_GID);
+
+  return targetSheet || spreadsheet.getSheets()[0];
 }
 
 function ensureHeaders_(sheet) {
