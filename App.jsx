@@ -107,6 +107,7 @@ export default function App() {
   const [form, setForm] = useState({
     name: "",
     department: "",
+    section: "",
     year: "",
     role: "",
     useBus: "",
@@ -160,6 +161,7 @@ export default function App() {
       const payload = {
         name: form.name,
         department: form.department,
+        section: form.section || "",
         year: form.year,
         role: form.role,
         useBus: form.useBus,
@@ -208,7 +210,7 @@ export default function App() {
               Your feedback has been recorded for the <strong>DTMS Project</strong>.<br />
               We'll use your insights to build a smarter transport system for Dhaanish Ahmed College.
             </p>
-            <button className="btn-primary" onClick={() => { setSubmitted(false); setStep(0); setForm({ name:"",department:"",year:"",role:"",useBus:"",frequency:"",busNumber:"",route:"",problems:[],satisfaction:null,wantApp:"",features:[],dtmsHelp:"",suggestions:"" }); }}>
+            <button className="btn-primary" onClick={() => { setSubmitted(false); setStep(0); setForm({ name:"",department:"",section:"",year:"",role:"",useBus:"",frequency:"",busNumber:"",route:"",problems:[],satisfaction:null,wantApp:"",features:[],dtmsHelp:"",suggestions:"" }); }}>
               Submit Another Response
             </button>
           </div>
@@ -267,6 +269,10 @@ export default function App() {
                   {departments.map(d => <option key={d}>{d}</option>)}
                 </select>
                 {errors.department && <p className="err-msg">{errors.department}</p>}
+              </div>
+              <div className="field">
+                <label>Section</label>
+                <input placeholder="Enter your section" value={form.section} onChange={e => set("section", e.target.value)} />
               </div>
               <div className="field">
                 <label>Year of Study <span className="req">*</span></label>
@@ -363,7 +369,7 @@ export default function App() {
               <div className="summary-box">
                 <h3>📋 Your Responses Summary</h3>
                 <p><b>Name:</b> {form.name}</p>
-                <p><b>Dept:</b> {form.department} | <b>Year:</b> {form.year} | <b>Role:</b> {form.role}</p>
+                <p><b>Dept:</b> {form.department} | <b>Section:</b> {form.section || "-"} | <b>Year:</b> {form.year} | <b>Role:</b> {form.role}</p>
                 <p><b>Bus User:</b> {form.useBus} {form.frequency ? `(${form.frequency})` : ""} {form.useBus === "Yes" && form.busNumber ? `| Route No: ${form.busNumber}` : ""}</p>
                 <p><b>Issues:</b> {form.problems.join(", ") || "—"}</p>
                 <p><b>Satisfaction:</b> {form.satisfaction}/5</p>
